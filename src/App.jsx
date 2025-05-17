@@ -11,6 +11,9 @@ import Student from "./pages/Student";
 import Students from "./pages/Students";
 import StudentDetails from "./pages/StudentDetails";
 import { useState, useEffect } from 'react';
+import CreateStreamSession from "./pages/streaming/CreateStreamSession";
+import StreamView from "./pages/streaming/StreamView";
+import StreamHost from "./pages/streaming/StreamHost";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +54,9 @@ const App = () => {
             <Route path="/students" element={<Students />} />
             <Route path="/students/reports" element={<Students />} />
             <Route path="/students/history/:id" element={<StudentDetails />} />
+            <Route path="/streams/create" element={<CreateStreamSession />} />
+            <Route path="/streams/host/:sessionId" element={<StreamHost />} />
+            <Route path="/streams/view/:sessionId" element={<StreamView />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,18 +1,18 @@
-
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { BarChart, Home, Users, X } from 'lucide-react';
+import { BarChart, Home, Users, X, Video } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Updated navigation items with Indian-friendly naming
+  // Updated navigation items with Indian-friendly naming and streaming section
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: <Home className="w-5 h-5" /> },
     { name: 'Students', href: '/students', icon: <Users className="w-5 h-5" /> },
     { name: 'Reports', href: '/students/reports', icon: <BarChart className="w-5 h-5" /> },
+    { name: 'Live Sessions', href: '/streams/create', icon: <Video className="w-5 h-5" /> },
   ];
   
   const closeSidebar = () => {
@@ -36,6 +36,9 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
     }
     if (href === '/students/reports') {
       return location.pathname === '/students/reports' || location.pathname.includes('/reports');
+    }
+    if (href === '/streams/create') {
+      return location.pathname.includes('/streams');
     }
     return location.pathname === href;
   };
