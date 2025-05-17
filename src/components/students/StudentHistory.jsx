@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/button';
 import { 
   BarChart, 
   LineChart, 
+  PieChart,
+  Pie,
+  Cell,
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -25,27 +28,27 @@ const StudentHistory = () => {
   
   // Sample Indian student data
   const studentsData = [
-    { id: '1', name: 'Rahul Sharma', roomNumber: '101', status: 'present', checkInTime: '08:15 AM', checkOutTime: '05:30 PM', attendancePercentage: '95%' },
-    { id: '2', name: 'Priya Patel', roomNumber: '102', status: 'present', checkInTime: '08:05 AM', checkOutTime: '05:45 PM', attendancePercentage: '92%' },
-    { id: '3', name: 'Amit Kumar', roomNumber: '103', status: 'absent', checkInTime: '-', checkOutTime: '-', attendancePercentage: '78%' },
-    { id: '4', name: 'Neha Gupta', roomNumber: '104', status: 'leave', checkInTime: '-', checkOutTime: '-', attendancePercentage: '85%' },
-    { id: '5', name: 'Karthik Reddy', roomNumber: '105', status: 'late', checkInTime: '10:20 AM', checkOutTime: '06:15 PM', attendancePercentage: '88%' },
-    { id: '6', name: 'Anjali Singh', roomNumber: '201', status: 'present', checkInTime: '07:55 AM', checkOutTime: '05:10 PM', attendancePercentage: '97%' },
-    { id: '7', name: 'Rajesh Verma', roomNumber: '202', status: 'present', checkInTime: '08:10 AM', checkOutTime: '05:25 PM', attendancePercentage: '94%' },
-    { id: '8', name: 'Sneha Mishra', roomNumber: '203', status: 'absent', checkInTime: '-', checkOutTime: '-', attendancePercentage: '79%' },
-    { id: '9', name: 'Deepak Joshi', roomNumber: '204', status: 'late', checkInTime: '09:45 AM', checkOutTime: '06:00 PM', attendancePercentage: '83%' },
-    { id: '10', name: 'Ayesha Khan', roomNumber: '205', status: 'present', checkInTime: '08:00 AM', checkOutTime: '05:15 PM', attendancePercentage: '96%' },
+    { id: '1', name: 'Rahul Sharma', roomNumber: '101', status: 'present', markedTime: '08:15 AM', attendancePercentage: '95%' },
+    { id: '2', name: 'Priya Patel', roomNumber: '102', status: 'present', markedTime: '08:05 AM', attendancePercentage: '92%' },
+    { id: '3', name: 'Amit Kumar', roomNumber: '103', status: 'absent', markedTime: '-', attendancePercentage: '78%' },
+    { id: '4', name: 'Neha Gupta', roomNumber: '104', status: 'leave', markedTime: '-', attendancePercentage: '85%' },
+    { id: '5', name: 'Karthik Reddy', roomNumber: '105', status: 'late', markedTime: '10:20 AM', attendancePercentage: '88%' },
+    { id: '6', name: 'Anjali Singh', roomNumber: '201', status: 'present', markedTime: '07:55 AM', attendancePercentage: '97%' },
+    { id: '7', name: 'Rajesh Verma', roomNumber: '202', status: 'present', markedTime: '08:10 AM', attendancePercentage: '94%' },
+    { id: '8', name: 'Sneha Mishra', roomNumber: '203', status: 'absent', markedTime: '-', attendancePercentage: '79%' },
+    { id: '9', name: 'Deepak Joshi', roomNumber: '204', status: 'late', markedTime: '09:45 AM', attendancePercentage: '83%' },
+    { id: '10', name: 'Ayesha Khan', roomNumber: '205', status: 'present', markedTime: '08:00 AM', attendancePercentage: '96%' },
   ];
   
   // Sample history data - weekly
   const weeklyHistory = [
-    { date: 'May 10', status: 'present', checkIn: '08:12 AM', checkOut: '05:25 PM' },
-    { date: 'May 11', status: 'present', checkIn: '08:05 AM', checkOut: '05:30 PM' },
-    { date: 'May 12', status: 'present', checkIn: '08:20 AM', checkOut: '05:15 PM' },
-    { date: 'May 13', status: 'absent', checkIn: '-', checkOut: '-' },
-    { date: 'May 14', status: 'present', checkIn: '08:07 AM', checkOut: '05:40 PM' },
-    { date: 'May 15', status: 'late', checkIn: '09:45 AM', checkOut: '06:00 PM' },
-    { date: 'May 16', status: 'present', checkIn: '08:10 AM', checkOut: '05:35 PM' },
+    { date: 'May 10', status: 'present', markedTime: '08:12 AM', remarks: '-' },
+    { date: 'May 11', status: 'present', markedTime: '08:05 AM', remarks: '-' },
+    { date: 'May 12', status: 'present', markedTime: '08:20 AM', remarks: '-' },
+    { date: 'May 13', status: 'absent', markedTime: '-', remarks: 'Not in hostel' },
+    { date: 'May 14', status: 'present', markedTime: '08:07 AM', remarks: '-' },
+    { date: 'May 15', status: 'leave', markedTime: '-', remarks: 'Family event' },
+    { date: 'May 16', status: 'present', markedTime: '08:10 AM', remarks: '-' },
   ];
   
   // Monthly history data
@@ -54,43 +57,47 @@ const StudentHistory = () => {
     const date = `May ${day}`;
     const rand = Math.random();
     let status = 'present';
-    let checkIn = `08:${Math.floor(Math.random() * 30).toString().padStart(2, '0')} AM`;
-    let checkOut = `05:${Math.floor(Math.random() * 45).toString().padStart(2, '0')} PM`;
+    let markedTime = `08:${Math.floor(Math.random() * 30).toString().padStart(2, '0')} AM`;
+    let remarks = '-';
     
     if (rand < 0.1) {
       status = 'absent';
-      checkIn = '-';
-      checkOut = '-';
-    } else if (rand < 0.15) {
-      status = 'late';
-      checkIn = `09:${Math.floor(Math.random() * 30).toString().padStart(2, '0')} AM`;
+      markedTime = '-';
+      remarks = 'Not present during roll call';
     } else if (rand < 0.18) {
       status = 'leave';
-      checkIn = '-';
-      checkOut = '-';
+      markedTime = '-';
+      remarks = 'Approved leave';
     }
     
-    return { date, status, checkIn, checkOut };
+    return { date, status, markedTime, remarks };
   });
   
   // Chart data - monthly attendance
   const monthlyChartData = [
-    { month: 'Jan', present: 19, absent: 3, late: 1, leave: 0 },
-    { month: 'Feb', present: 18, absent: 2, late: 1, leave: 1 },
-    { month: 'Mar', present: 20, absent: 0, late: 2, leave: 0 },
-    { month: 'Apr', present: 18, absent: 2, late: 0, leave: 2 },
-    { month: 'May', present: 16, absent: 2, late: 1, leave: 0 }
+    { month: 'Jan', present: 19, absent: 3, leave: 9 },
+    { month: 'Feb', present: 18, absent: 2, leave: 8 },
+    { month: 'Mar', present: 20, absent: 0, leave: 11 },
+    { month: 'Apr', present: 18, absent: 2, leave: 10 },
+    { month: 'May', present: 16, absent: 2, leave: 4 }
   ];
   
-  // Check-in time trend data
-  const checkInTrendData = [
-    { date: 'May 10', time: 492 }, // 8:12 AM in minutes
-    { date: 'May 11', time: 485 }, // 8:05 AM
-    { date: 'May 12', time: 500 }, // 8:20 AM
-    { date: 'May 13', time: 0 },   // Absent
-    { date: 'May 14', time: 487 }, // 8:07 AM
-    { date: 'May 15', time: 585 }, // 9:45 AM
-    { date: 'May 16', time: 490 }  // 8:10 AM
+  // Weekly presence data
+  const weeklyPresenceData = [
+    { date: 'May 10', status: 'present' }, 
+    { date: 'May 11', status: 'present' }, 
+    { date: 'May 12', status: 'present' }, 
+    { date: 'May 13', status: 'absent' },   
+    { date: 'May 14', status: 'present' }, 
+    { date: 'May 15', status: 'leave' }, 
+    { date: 'May 16', status: 'present' }  
+  ];
+  
+  // Attendance distribution data for pie chart
+  const statusDistribution = [
+    { name: 'Present', value: 23, color: '#4CAF50' },
+    { name: 'Absent', value: 3, color: '#ea384c' },
+    { name: 'Leave', value: 4, color: '#9b87f5' },
   ];
   
   // Find the student by ID
@@ -176,7 +183,6 @@ const StudentHistory = () => {
                   <Legend />
                   <Bar dataKey="present" name="Present" fill="#4CAF50" />
                   <Bar dataKey="absent" name="Absent" fill="#ea384c" />
-                  <Bar dataKey="late" name="Late" fill="#FF9800" />
                   <Bar dataKey="leave" name="Leave" fill="#9b87f5" />
                 </BarChart>
               </ResponsiveContainer>
@@ -186,28 +192,29 @@ const StudentHistory = () => {
         
         <Card>
           <CardHeader>
-            <CardTitle>Check-in Time Trend</CardTitle>
+            <CardTitle>Status Distribution</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={checkInTrendData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis domain={[480, 600]} tickFormatter={(value) => {
-                    const hours = Math.floor(value / 60);
-                    const minutes = value % 60;
-                    return `${hours}:${minutes.toString().padStart(2, '0')}`;
-                  }} />
-                  <Tooltip formatter={(value) => {
-                    if (value === 0) return "Absent";
-                    const hours = Math.floor(value / 60);
-                    const minutes = value % 60;
-                    return [`${hours}:${minutes.toString().padStart(2, '0')} AM`, "Check-in time"];
-                  }} />
+                <PieChart>
+                  <Pie
+                    data={statusDistribution}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={true}
+                    outerRadius={100}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label={({name, value, percent}) => `${name}: ${value} (${(percent * 100).toFixed(0)}%)`}
+                  >
+                    {statusDistribution.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
                   <Legend />
-                  <Line type="monotone" dataKey="time" name="Check-in Time" stroke="#2196F3" activeDot={{ r: 8 }} />
-                </LineChart>
+                </PieChart>
               </ResponsiveContainer>
             </div>
           </CardContent>
@@ -225,8 +232,8 @@ const StudentHistory = () => {
                 <tr className="bg-gray-50 border-b text-xs font-medium text-muted-foreground">
                   <th className="py-3 px-4 text-left">Date</th>
                   <th className="py-3 px-4 text-left">Status</th>
-                  <th className="py-3 px-4 text-left">Check-in</th>
-                  <th className="py-3 px-4 text-left">Check-out</th>
+                  <th className="py-3 px-4 text-left">Marked Time</th>
+                  <th className="py-3 px-4 text-left">Remarks</th>
                 </tr>
               </thead>
               <tbody>
@@ -237,14 +244,13 @@ const StudentHistory = () => {
                       <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${
                         record.status === 'present' ? 'bg-green-100 text-green-800' : 
                         record.status === 'absent' ? 'bg-red-100 text-red-800' : 
-                        record.status === 'leave' ? 'bg-blue-100 text-blue-800' : 
-                        'bg-yellow-100 text-yellow-800'
+                        'bg-blue-100 text-blue-800'
                       }`}>
                         {record.status.charAt(0).toUpperCase() + record.status.slice(1)}
                       </span>
                     </td>
-                    <td className="py-3 px-4">{record.checkIn}</td>
-                    <td className="py-3 px-4">{record.checkOut}</td>
+                    <td className="py-3 px-4">{record.markedTime}</td>
+                    <td className="py-3 px-4">{record.remarks}</td>
                   </tr>
                 ))}
               </tbody>

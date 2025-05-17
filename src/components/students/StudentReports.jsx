@@ -46,43 +46,42 @@ const StudentReports = () => {
   
   // Monthly attendance data
   const monthlyData = [
-    { month: 'Jan', present: 22, absent: 9, late: 3, leave: 1 },
-    { month: 'Feb', present: 20, absent: 8, late: 2, leave: 4 },
-    { month: 'Mar', present: 23, absent: 7, late: 2, leave: 1 },
-    { month: 'Apr', present: 19, absent: 10, late: 3, leave: 3 },
-    { month: 'May', present: 24, absent: 6, late: 1, leave: 2 },
-    { month: 'Jun', present: 21, absent: 9, late: 2, leave: 1 },
+    { month: 'Jan', present: 22, absent: 9, leave: 1 },
+    { month: 'Feb', present: 20, absent: 8, leave: 4 },
+    { month: 'Mar', present: 23, absent: 7, leave: 1 },
+    { month: 'Apr', present: 19, absent: 10, leave: 3 },
+    { month: 'May', present: 24, absent: 6, leave: 2 },
+    { month: 'Jun', present: 21, absent: 9, leave: 1 },
   ];
   
   // Student-wise attendance data
   const studentWiseData = [
-    { name: 'Rahul Sharma', present: 85, absent: 10, late: 5, leave: 0, total: 100 },
-    { name: 'Priya Patel', present: 90, absent: 5, late: 3, leave: 2, total: 100 },
-    { name: 'Amit Kumar', present: 70, absent: 20, late: 5, leave: 5, total: 100 },
-    { name: 'Neha Gupta', present: 82, absent: 12, late: 3, leave: 3, total: 100 },
-    { name: 'Karthik Reddy', present: 88, absent: 8, late: 4, leave: 0, total: 100 },
+    { name: 'Rahul Sharma', present: 85, absent: 10, leave: 5, total: 100 },
+    { name: 'Priya Patel', present: 90, absent: 5, leave: 5, total: 100 },
+    { name: 'Amit Kumar', present: 70, absent: 20, leave: 10, total: 100 },
+    { name: 'Neha Gupta', present: 82, absent: 12, leave: 6, total: 100 },
+    { name: 'Karthik Reddy', present: 88, absent: 8, leave: 4, total: 100 },
   ];
   
   // Room-wise attendance data
   const roomWiseData = [
-    { room: '101', present: 88, absent: 8, late: 4, leave: 0 },
-    { room: '102', present: 90, absent: 5, late: 3, leave: 2 },
-    { room: '103', present: 70, absent: 25, late: 5, leave: 0 },
-    { room: '104', present: 82, absent: 12, late: 3, leave: 3 },
-    { room: '105', present: 86, absent: 8, late: 4, leave: 2 },
-    { room: '201', present: 92, absent: 5, late: 3, leave: 0 },
-    { room: '202', present: 88, absent: 6, late: 4, leave: 2 },
-    { room: '203', present: 78, absent: 16, late: 6, leave: 0 },
-    { room: '204', present: 84, absent: 10, late: 3, leave: 3 },
-    { room: '205', present: 90, absent: 6, late: 2, leave: 2 },
+    { room: '101', present: 88, absent: 8, leave: 4 },
+    { room: '102', present: 90, absent: 5, leave: 5 },
+    { room: '103', present: 70, absent: 25, leave: 5 },
+    { room: '104', present: 82, absent: 12, leave: 6 },
+    { room: '105', present: 86, absent: 8, leave: 6 },
+    { room: '201', present: 92, absent: 5, leave: 3 },
+    { room: '202', present: 88, absent: 6, leave: 6 },
+    { room: '203', present: 78, absent: 16, leave: 6 },
+    { room: '204', present: 84, absent: 10, leave: 6 },
+    { room: '205', present: 90, absent: 6, leave: 4 },
   ];
   
   // Status distribution data
   const statusData = [
     { name: 'Present', value: 456, color: '#4CAF50' },
     { name: 'Absent', value: 44, color: '#ea384c' },
-    { name: 'Leave', value: 12, color: '#9b87f5' },
-    { name: 'Late', value: 22, color: '#FF9800' },
+    { name: 'Leave', value: 34, color: '#9b87f5' },
   ];
   
   // Current filtered data based on selection
@@ -201,7 +200,6 @@ const StudentReports = () => {
                     <Legend />
                     <Bar dataKey="present" name="Present" fill="#4CAF50" />
                     <Bar dataKey="absent" name="Absent" fill="#ea384c" />
-                    <Bar dataKey="late" name="Late" fill="#FF9800" />
                     <Bar dataKey="leave" name="Leave" fill="#9b87f5" />
                   </BarChart>
                 </ResponsiveContainer>
@@ -227,7 +225,6 @@ const StudentReports = () => {
                       <Legend />
                       <Line type="monotone" dataKey="present" name="Present" stroke="#4CAF50" />
                       <Line type="monotone" dataKey="absent" name="Absent" stroke="#ea384c" />
-                      <Line type="monotone" dataKey="late" name="Late" stroke="#FF9800" />
                       <Line type="monotone" dataKey="leave" name="Leave" stroke="#9b87f5" />
                     </LineChart>
                   </ResponsiveContainer>
@@ -284,7 +281,6 @@ const StudentReports = () => {
                     <Legend />
                     <Bar dataKey="present" name="Present" fill="#4CAF50" />
                     <Bar dataKey="absent" name="Absent" fill="#ea384c" />
-                    <Bar dataKey="late" name="Late" fill="#FF9800" />
                     <Bar dataKey="leave" name="Leave" fill="#9b87f5" />
                   </BarChart>
                 </ResponsiveContainer>
