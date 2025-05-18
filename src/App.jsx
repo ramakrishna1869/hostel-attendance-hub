@@ -22,6 +22,7 @@ import StreamHost from "./pages/streaming/StreamHost";
 import Student from "./pages/Student";
 import Profile from "./pages/student/Profile";
 import Analytics from "./pages/student/Analytics";
+import AttendancePage from "./pages/student/AttendancePage";
 
 // Auth Component
 import RequireAuth from "./components/auth/RequireAuth";
@@ -157,6 +158,14 @@ const App = () => {
               element={
                 <RequireAuth requiredRole="student">
                   <Analytics />
+                </RequireAuth>
+              } 
+            />
+            <Route 
+              path="/student/attendance" 
+              element={
+                <RequireAuth requiredRole="student">
+                  <AttendancePage />
                 </RequireAuth>
               } 
             />

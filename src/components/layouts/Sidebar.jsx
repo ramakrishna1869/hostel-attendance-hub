@@ -25,7 +25,7 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
       // Student navigation
       return [
         { name: 'My Info', href: '/student/profile', icon: <UserCircle className="w-5 h-5" /> },
-        { name: 'Check In/Out', href: '/student', icon: <Clock className="w-5 h-5" /> },
+        { name: 'Check In/Out', href: '/student/attendance', icon: <Clock className="w-5 h-5" /> },
         { name: 'My Analytics', href: '/student/analytics', icon: <BarChart className="w-5 h-5" /> },
       ];
     }
@@ -57,6 +57,9 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
     }
     if (href === '/streams/create') {
       return location.pathname.includes('/streams');
+    }
+    if (href === '/student/attendance') {
+      return location.pathname === '/student/attendance';
     }
     return location.pathname === href || location.pathname.startsWith(href);
   };
