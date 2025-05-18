@@ -1,19 +1,37 @@
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { BarChart, Home, Users, X, Video } from 'lucide-react';
+import { BarChart, Home, Users, X, Video, UserCircle, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Updated navigation items with Indian-friendly naming and streaming section
-  const navigation = [
-    { name: 'Dashboard', href: '/dashboard', icon: <Home className="w-5 h-5" /> },
-    { name: 'Students', href: '/students', icon: <Users className="w-5 h-5" /> },
-    { name: 'Reports', href: '/students/reports', icon: <BarChart className="w-5 h-5" /> },
-    { name: 'Live Sessions', href: '/streams/create', icon: <Video className="w-5 h-5" /> },
-  ];
+  // Get user from localStorage for role-based navigation
+  const userString = localStorage.getItem('user');
+  const user = userString ? JSON.parse(userString) : { role: 'student' }; // Default to student if no user found
+  
+  // Define navigation items based on user role
+  const getNavigationItems = () => {
+    if (user.role === 'admin') {
+      return [
+        { name: 'Dashboard', href: '/dashboard', icon: <Home className="w-5 h-5" /> },
+        { name: 'Students', href: '/students', icon: <Users className="w-5 h-5" /> },
+        { name: 'Reports', href: '/students/reports', icon: <BarChart className="w-5 h-5" /> },
+        { name: 'Live Sessions', href: '/streams/create', icon: <Video className="w-5 h-5" /> },
+      ];
+    } else {
+      // Student navigation
+      return [
+        { name: 'My Info', href: '/student/profile', icon: <UserCircle className="w-5 h-5" /> },
+        { name: 'Check In/Out', href: '/student', icon: <Clock className="w-5 h-5" /> },
+        { name: 'My Analytics', href: '/student/analytics', icon: <BarChart className="w-5 h-5" /> },
+      ];
+    }
+  };
+  
+  const navigation = getNavigationItems();
   
   const closeSidebar = () => {
     setIsOpen(false);
@@ -40,7 +58,7 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
     if (href === '/streams/create') {
       return location.pathname.includes('/streams');
     }
-    return location.pathname === href;
+    return location.pathname === href || location.pathname.startsWith(href);
   };
 
   return (
@@ -63,7 +81,7 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
         {/* Sidebar Header */}
         <div className="flex h-16 items-center justify-between border-b px-4">
           <div className="flex items-center">
-            <span className="text-xl font-bold">HAS Admin</span>
+            <span className="text-xl font-bold">HAS {user.role === 'admin' ? 'Admin' : 'Student'}</span>
           </div>
           {isMobile && (
             <Button variant="ghost" size="icon" onClick={closeSidebar}>
