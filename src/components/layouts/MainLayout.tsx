@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
-import { Bell, LogOut, Menu, Search, User } from 'lucide-react';
+import { BarChart, Bell, Home, LogOut, Menu, Search, User, Users } from 'lucide-react';
 import Sidebar from './Sidebar';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -49,14 +49,6 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     return nameParts[0][0];
   };
 
-  // Get role-specific home page for navigation
-  const getHomePage = () => {
-    if (userData?.role === 'admin') {
-      return '/dashboard';
-    }
-    return '/student';
-  };
-
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar for desktop */}
@@ -73,25 +65,18 @@ const MainLayout = ({ children }: MainLayoutProps) => {
                   <Menu className="h-5 w-5" />
                 </Button>
               )}
-              <h1 
-                className="text-xl font-bold mx-4 cursor-pointer" 
-                onClick={() => navigate(getHomePage())}
-              >
-                {userData?.role === 'admin' ? 'Hostel Attendance Hub' : 'Student Dashboard'}
-              </h1>
+              <h1 className="text-xl font-bold mx-4">Hostel Attendance Hub</h1>
             </div>
             
             <div className="flex items-center space-x-4">
-              {userData?.role === 'admin' && (
-                <div className="relative">
-                  <Search className="h-4 w-4 absolute top-2.5 left-3 text-muted-foreground" />
-                  <input
-                    type="text"
-                    placeholder="Search..."
-                    className="pl-10 py-2 pr-4 rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white w-[200px]"
-                  />
-                </div>
-              )}
+              <div className="relative">
+                <Search className="h-4 w-4 absolute top-2.5 left-3 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="pl-10 py-2 pr-4 rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white w-[200px]"
+                />
+              </div>
               
               <Button variant="ghost" size="icon" className="relative">
                 <Bell className="h-5 w-5" />
@@ -116,7 +101,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
                     </div>
                   </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate(userData?.role === 'student' ? '/student/profile' : '/profile')}>
+                  <DropdownMenuItem onClick={() => navigate('/profile')}>
                     <User className="w-4 h-4 mr-2" />
                     Profile
                   </DropdownMenuItem>

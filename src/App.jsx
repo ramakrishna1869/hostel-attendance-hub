@@ -3,35 +3,17 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useState, useEffect } from 'react';
-
-// Auth Pages
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-
-// Admin Pages
 import Dashboard from "./pages/Dashboard";
+import Student from "./pages/Student";
 import Students from "./pages/Students";
 import StudentDetails from "./pages/StudentDetails";
+import { useState, useEffect } from 'react';
 import CreateStreamSession from "./pages/streaming/CreateStreamSession";
 import StreamView from "./pages/streaming/StreamView";
 import StreamHost from "./pages/streaming/StreamHost";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import StudentListPage from "./pages/admin/StudentListPage";
-import AttendanceReportsPage from "./pages/admin/AttendanceReportsPage";
-import LiveAttendancePage from "./pages/admin/LiveAttendancePage";
-
-// Student Pages
-import Student from "./pages/Student";
-import Profile from "./pages/student/Profile";
-import Analytics from "./pages/student/Analytics";
-import AttendancePage from "./pages/student/AttendancePage";
-import StudentInfoPage from "./pages/student/StudentInfoPage";
-import StudentAnalyticsPage from "./pages/student/StudentAnalyticsPage";
-
-// Auth Component
-import RequireAuth from "./components/auth/RequireAuth";
 
 const queryClient = new QueryClient();
 
@@ -47,18 +29,6 @@ const App = () => {
 
     return () => clearTimeout(timer);
   }, []);
-
-  // Check if a user is logged in
-  const userString = localStorage.getItem('user');
-  const isLoggedIn = !!userString;
-  const user = isLoggedIn ? JSON.parse(userString) : null;
-
-  // Redirect function based on role
-  const getHomeRedirect = () => {
-    if (!isLoggedIn) return <Navigate to="/" />;
-    if (user?.role === 'admin') return <Navigate to="/admin/dashboard" />;
-    return <Navigate to="/student/info" />;
-  };
 
   if (loading) {
     return (
@@ -78,145 +48,16 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={isLoggedIn ? getHomeRedirect() : <Index />} />
-            
-            {/* Root Redirect */}
-            <Route path="/home" element={getHomeRedirect()} />
-            
-            {/* Admin Routes */}
-            <Route 
-              path="/dashboard" 
-              element={
-                <RequireAuth requiredRole="admin">
-                  <Dashboard />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/admin/dashboard" 
-              element={
-                <RequireAuth requiredRole="admin">
-                  <AdminDashboard />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/students" 
-              element={
-                <RequireAuth requiredRole="admin">
-                  <Students />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/admin/students" 
-              element={
-                <RequireAuth requiredRole="admin">
-                  <StudentListPage />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/students/reports" 
-              element={
-                <RequireAuth requiredRole="admin">
-                  <Students />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/admin/reports" 
-              element={
-                <RequireAuth requiredRole="admin">
-                  <AttendanceReportsPage />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/admin/live" 
-              element={
-                <RequireAuth requiredRole="admin">
-                  <LiveAttendancePage />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/students/history/:id" 
-              element={
-                <RequireAuth requiredRole="admin">
-                  <StudentDetails />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/streams/create" 
-              element={
-                <RequireAuth requiredRole="admin">
-                  <CreateStreamSession />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/streams/host/:sessionId" 
-              element={
-                <RequireAuth requiredRole="admin">
-                  <StreamHost />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/streams/view/:sessionId" 
-              element={
-                <RequireAuth>
-                  <StreamView />
-                </RequireAuth>
-              } 
-            />
-            
-            {/* Student Routes */}
-            <Route 
-              path="/student" 
-              element={
-                <RequireAuth requiredRole="student">
-                  <Student />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/student/profile" 
-              element={
-                <RequireAuth requiredRole="student">
-                  <Profile />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/student/info" 
-              element={
-                <RequireAuth requiredRole="student">
-                  <StudentInfoPage />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/student/analytics" 
-              element={
-                <RequireAuth requiredRole="student">
-                  <StudentAnalyticsPage />
-                </RequireAuth>
-              } 
-            />
-            <Route 
-              path="/student/attendance" 
-              element={
-                <RequireAuth requiredRole="student">
-                  <AttendancePage />
-                </RequireAuth>
-              } 
-            />
-            
-            {/* Catch-all route */}
+            <Route path="/" element={<Index />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/student" element={<Student />} />
+            <Route path="/students" element={<Students />} />
+            <Route path="/students/reports" element={<Students />} />
+            <Route path="/students/history/:id" element={<StudentDetails />} />
+            <Route path="/streams/create" element={<CreateStreamSession />} />
+            <Route path="/streams/host/:sessionId" element={<StreamHost />} />
+            <Route path="/streams/view/:sessionId" element={<StreamView />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

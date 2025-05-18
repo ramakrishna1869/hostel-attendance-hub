@@ -1,37 +1,19 @@
-
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { BarChart, Home, Users, X, Video, UserCircle, Clock } from 'lucide-react';
+import { BarChart, Home, Users, X, Video } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Get user from localStorage for role-based navigation
-  const userString = localStorage.getItem('user');
-  const user = userString ? JSON.parse(userString) : { role: 'student' }; // Default to student if no user found
-  
-  // Define navigation items based on user role
-  const getNavigationItems = () => {
-    if (user.role === 'admin') {
-      return [
-        { name: 'Dashboard', href: '/admin/dashboard', icon: <Home className="w-5 h-5" /> },
-        { name: 'Students', href: '/admin/students', icon: <Users className="w-5 h-5" /> },
-        { name: 'Reports', href: '/admin/reports', icon: <BarChart className="w-5 h-5" /> },
-        { name: 'Live Sessions', href: '/admin/live', icon: <Video className="w-5 h-5" /> },
-      ];
-    } else {
-      // Student navigation
-      return [
-        { name: 'My Info', href: '/student/info', icon: <UserCircle className="w-5 h-5" /> },
-        { name: 'Check In/Out', href: '/student/attendance', icon: <Clock className="w-5 h-5" /> },
-        { name: 'My Analytics', href: '/student/analytics', icon: <BarChart className="w-5 h-5" /> },
-      ];
-    }
-  };
-  
-  const navigation = getNavigationItems();
+  // Updated navigation items with Indian-friendly naming and streaming section
+  const navigation = [
+    { name: 'Dashboard', href: '/dashboard', icon: <Home className="w-5 h-5" /> },
+    { name: 'Students', href: '/students', icon: <Users className="w-5 h-5" /> },
+    { name: 'Reports', href: '/students/reports', icon: <BarChart className="w-5 h-5" /> },
+    { name: 'Live Sessions', href: '/streams/create', icon: <Video className="w-5 h-5" /> },
+  ];
   
   const closeSidebar = () => {
     setIsOpen(false);
@@ -46,7 +28,19 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
 
   // Helper function to check if a navigation item is active
   const isActive = (href) => {
-    return location.pathname === href || location.pathname.startsWith(href);
+    if (href === '/dashboard') {
+      return location.pathname === '/dashboard';
+    }
+    if (href === '/students') {
+      return location.pathname === '/students';
+    }
+    if (href === '/students/reports') {
+      return location.pathname === '/students/reports' || location.pathname.includes('/reports');
+    }
+    if (href === '/streams/create') {
+      return location.pathname.includes('/streams');
+    }
+    return location.pathname === href;
   };
 
   return (
@@ -69,7 +63,7 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
         {/* Sidebar Header */}
         <div className="flex h-16 items-center justify-between border-b px-4">
           <div className="flex items-center">
-            <span className="text-xl font-bold">HAS {user.role === 'admin' ? 'Admin' : 'Student'}</span>
+            <span className="text-xl font-bold">HAS Admin</span>
           </div>
           {isMobile && (
             <Button variant="ghost" size="icon" onClick={closeSidebar}>
