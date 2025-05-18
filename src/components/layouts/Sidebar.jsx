@@ -16,15 +16,15 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
   const getNavigationItems = () => {
     if (user.role === 'admin') {
       return [
-        { name: 'Dashboard', href: '/dashboard', icon: <Home className="w-5 h-5" /> },
-        { name: 'Students', href: '/students', icon: <Users className="w-5 h-5" /> },
-        { name: 'Reports', href: '/students/reports', icon: <BarChart className="w-5 h-5" /> },
-        { name: 'Live Sessions', href: '/streams/create', icon: <Video className="w-5 h-5" /> },
+        { name: 'Dashboard', href: '/admin/dashboard', icon: <Home className="w-5 h-5" /> },
+        { name: 'Students', href: '/admin/students', icon: <Users className="w-5 h-5" /> },
+        { name: 'Reports', href: '/admin/reports', icon: <BarChart className="w-5 h-5" /> },
+        { name: 'Live Sessions', href: '/admin/live', icon: <Video className="w-5 h-5" /> },
       ];
     } else {
       // Student navigation
       return [
-        { name: 'My Info', href: '/student/profile', icon: <UserCircle className="w-5 h-5" /> },
+        { name: 'My Info', href: '/student/info', icon: <UserCircle className="w-5 h-5" /> },
         { name: 'Check In/Out', href: '/student/attendance', icon: <Clock className="w-5 h-5" /> },
         { name: 'My Analytics', href: '/student/analytics', icon: <BarChart className="w-5 h-5" /> },
       ];
@@ -46,21 +46,6 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
 
   // Helper function to check if a navigation item is active
   const isActive = (href) => {
-    if (href === '/dashboard') {
-      return location.pathname === '/dashboard';
-    }
-    if (href === '/students') {
-      return location.pathname === '/students';
-    }
-    if (href === '/students/reports') {
-      return location.pathname === '/students/reports' || location.pathname.includes('/reports');
-    }
-    if (href === '/streams/create') {
-      return location.pathname.includes('/streams');
-    }
-    if (href === '/student/attendance') {
-      return location.pathname === '/student/attendance';
-    }
     return location.pathname === href || location.pathname.startsWith(href);
   };
 
