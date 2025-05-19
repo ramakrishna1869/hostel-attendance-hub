@@ -6,16 +6,32 @@ import MainLayout from '@/components/layouts/MainLayout';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import AttendanceSummary from '@/components/dashboard/AttendanceSummary';
+import AttendanceStats from '@/components/dashboard/AttendanceStats';
+import StudentList from '@/components/dashboard/StudentList';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
   const [loading, setLoading] = useState(true);
-  const [attendanceData, setAttendanceData] = useState([]);
-  const [attendanceStatusData, setAttendanceStatusData] = useState([]);
-  const [totalStudents, setTotalStudents] = useState(0);
-  const [recentActivity, setRecentActivity] = useState([]);
   const [dataAvailable, setDataAvailable] = useState(false);
+  const totalStudents = 158; // Demo value
+
+  // Sample attendance data for charts
+  const attendanceData = [
+    { day: 'Mon', checkedIn: 150, checkedOut: 148, absent: 8 },
+    { day: 'Tue', checkedIn: 147, checkedOut: 145, absent: 11 },
+    { day: 'Wed', checkedIn: 151, checkedOut: 149, absent: 7 },
+    { day: 'Thu', checkedIn: 153, checkedOut: 151, absent: 5 },
+    { day: 'Fri', checkedIn: 145, checkedOut: 140, absent: 13 },
+  ];
+
+  const attendanceStatusData = [
+    { name: 'Present', value: 142, color: '#4CAF50' },
+    { name: 'Absent', value: 8, color: '#F44336' },
+    { name: 'On Leave', value: 3, color: '#2196F3' },
+    { name: 'Late', value: 5, color: '#FF9800' },
+  ];
 
   // Check if user is logged in and is an admin
   useEffect(() => {
@@ -31,7 +47,7 @@ const Dashboard = () => {
     }
   }, [navigate]);
 
-  // Fetch dashboard data
+  // Simulate API loading
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
@@ -40,11 +56,11 @@ const Dashboard = () => {
         // const response = await fetch('/api/dashboard');
         // const data = await response.json();
         
-        // For now, we'll just simulate the API call and show empty states
+        // For demonstration, simulate loading data
         setTimeout(() => {
           setLoading(false);
-          setDataAvailable(false); // Set to true when your API is ready
-        }, 1500);
+          setDataAvailable(true);
+        }, 1000);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
         setLoading(false);
@@ -54,10 +70,6 @@ const Dashboard = () => {
 
     fetchDashboardData();
   }, []);
-
-  const handleViewDetails = (student) => {
-    navigate(`/students/history/${student.id}`);
-  };
 
   const handleViewAllStudents = () => {
     navigate('/students');
@@ -84,34 +96,7 @@ const Dashboard = () => {
         </div>
       ) : activeTab === 'overview' ? (
         <>
-          {dataAvailable ? (
-            <AttendanceSummary totalStudents={totalStudents} />
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[...Array(4)].map((_, index) => (
-                <Card key={index} className={`border-l-4 ${
-                  index === 0 ? 'border-l-green-500' : 
-                  index === 1 ? 'border-l-red-500' : 
-                  index === 2 ? 'border-l-primary' : 
-                  'border-l-yellow-500'
-                }`}>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm font-medium text-muted-foreground">
-                      {index === 0 ? 'Present' : 
-                       index === 1 ? 'Absent' : 
-                       index === 2 ? 'On Leave' : 
-                       'Late Check-in'}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-center py-6 text-muted-foreground">
-                      Data will appear here once available
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
+          <AttendanceSummary totalStudents={totalStudents} />
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
             <Card>
@@ -119,7 +104,7 @@ const Dashboard = () => {
                 <CardTitle>Weekly Attendance Overview</CardTitle>
               </CardHeader>
               <CardContent>
-                {dataAvailable && attendanceData.length > 0 ? (
+                {dataAvailable ? (
                   <div className="h-80">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart
@@ -150,7 +135,7 @@ const Dashboard = () => {
                 <CardTitle>Attendance Status</CardTitle>
               </CardHeader>
               <CardContent>
-                {dataAvailable && attendanceStatusData.length > 0 ? (
+                {dataAvailable ? (
                   <div className="h-80">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
@@ -180,52 +165,7 @@ const Dashboard = () => {
             </Card>
           </div>
           
-          <Card className="mt-6">
-            <CardHeader>
-              <CardTitle>Attendance Activity</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {dataAvailable && recentActivity.length > 0 ? (
-                <div className="overflow-x-auto">
-                  <table className="w-full border-collapse">
-                    <thead>
-                      <tr className="border-b text-xs font-medium text-muted-foreground">
-                        <th className="py-3 px-4 text-left">Student</th>
-                        <th className="py-3 px-4 text-left">Room</th>
-                        <th className="py-3 px-4 text-left">Status</th>
-                        <th className="py-3 px-4 text-left">Time</th>
-                        <th className="py-3 px-4 text-left">Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {recentActivity.map((activity) => (
-                        <tr key={activity.id} className="border-b border-gray-100 hover:bg-gray-50">
-                          <td className="py-3 px-4">{activity.studentName}</td>
-                          <td className="py-3 px-4">{activity.roomNumber}</td>
-                          <td className="py-3 px-4">
-                            <span className={`inline-block px-2 py-1 text-xs font-medium rounded-full ${
-                              activity.action === 'Checked In' ? 'bg-green-100 text-green-800' : 
-                              activity.action === 'Checked Out' ? 'bg-blue-100 text-blue-800' : 
-                              activity.action === 'Absent' ? 'bg-red-100 text-red-800' : 
-                              'bg-yellow-100 text-yellow-800'
-                            }`}>
-                              {activity.action}
-                            </span>
-                          </td>
-                          <td className="py-3 px-4">{activity.time}</td>
-                          <td className="py-3 px-4">{activity.date}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  No recent activity available
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          <AttendanceStats />
 
           <div className="mt-6">
             <div className="flex justify-between items-center mb-4">
@@ -235,42 +175,16 @@ const Dashboard = () => {
               </Button>
             </div>
             <Card>
-              <CardContent className="p-0">
-                {dataAvailable ? (
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead>
-                        <tr className="bg-gray-50">
-                          <th className="text-left p-4">Name</th>
-                          <th className="text-left p-4">Room</th>
-                          <th className="text-left p-4">Status</th>
-                          <th className="text-left p-4">Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td colSpan="4" className="text-center py-8 text-muted-foreground">
-                            No student activity available
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    No student activity available
-                  </div>
-                )}
+              <CardContent className="p-4">
+                <StudentList />
               </CardContent>
             </Card>
           </div>
         </>
       ) : (
         <Card>
-          <CardContent className="p-0">
-            <div className="text-center py-12 text-muted-foreground">
-              Student data will appear here once available
-            </div>
+          <CardContent className="p-4">
+            <StudentList />
           </CardContent>
         </Card>
       )}

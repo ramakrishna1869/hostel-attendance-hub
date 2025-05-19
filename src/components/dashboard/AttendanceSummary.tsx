@@ -7,11 +7,11 @@ interface AttendanceSummaryProps {
 }
 
 const AttendanceSummary = ({ totalStudents }: AttendanceSummaryProps) => {
-  // Sample data - in a real app, this would come from your backend
-  const presentCount = 456;
-  const absentCount = 44;
-  const leaveCount = 12;
-  const lateCount = 22;
+  // Minimal sample data for demonstration - would come from backend in production
+  const presentCount = 142;
+  const absentCount = 8;
+  const leaveCount = 3;
+  const lateCount = 5;
   
   const presentPercentage = Math.round((presentCount / totalStudents) * 100);
   const absentPercentage = Math.round((absentCount / totalStudents) * 100);

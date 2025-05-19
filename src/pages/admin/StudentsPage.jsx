@@ -32,11 +32,35 @@ const StudentsPage = () => {
         // In production, this would fetch from your backend API
         // const response = await fetch('/api/students');
         // const data = await response.json();
-        // setStudents(data);
         
-        // For demo purposes, we'll just show an empty state
+        // For demonstration purposes only - minimal sample data
         setTimeout(() => {
-          setStudents([]);
+          setStudents([
+            {
+              id: '101',
+              name: 'Rahul Sharma',
+              rollNo: 'CS21045',
+              roomNo: '101',
+              status: 'checked-in',
+              lastCheckin: '08:15 AM, 19 May 2025'
+            },
+            {
+              id: '102',
+              name: 'Priya Patel',
+              rollNo: 'CS21023',
+              roomNo: '205',
+              status: 'checked-out',
+              lastCheckin: '07:50 AM, 19 May 2025'
+            },
+            {
+              id: '103',
+              name: 'Amit Kumar',
+              rollNo: 'CS21008',
+              roomNo: '112',
+              status: 'absent',
+              lastCheckin: '-'
+            },
+          ]);
           setLoading(false);
         }, 1000);
       } catch (error) {
@@ -73,11 +97,11 @@ const StudentsPage = () => {
   const handleViewProfile = (student) => {
     // In real app, navigate to student detail page
     // navigate(`/admin/students/${student.id}`);
-    toast.info(`Viewing student profile`);
+    toast.info(`Viewing ${student.name}'s profile`);
   };
 
-  const handleSendAlert = () => {
-    toast.success(`Alert sent successfully`);
+  const handleSendAlert = (student) => {
+    toast.success(`Alert sent to ${student.name}`);
   };
 
   const handleExport = () => {
@@ -169,13 +193,13 @@ const StudentsPage = () => {
                           <TableCell>{student.rollNo}</TableCell>
                           <TableCell>{student.roomNo}</TableCell>
                           <TableCell>{getStatusBadge(student.status)}</TableCell>
-                          <TableCell>{student.lastCheckin || 'N/A'}</TableCell>
+                          <TableCell>{student.lastCheckin}</TableCell>
                           <TableCell>
                             <div className="flex space-x-2">
                               <Button variant="ghost" size="icon" onClick={() => handleViewProfile(student)}>
                                 <UserCircle className="h-4 w-4" />
                               </Button>
-                              <Button variant="ghost" size="icon" onClick={handleSendAlert}>
+                              <Button variant="ghost" size="icon" onClick={() => handleSendAlert(student)}>
                                 <Bell className="h-4 w-4" />
                               </Button>
                             </div>

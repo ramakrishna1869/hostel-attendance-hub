@@ -16,18 +16,13 @@ const StudentList = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
   
-  // Sample student data - in a real app this would come from your backend
+  // Minimal sample data for demonstration - would come from backend in production
   const studentsData = [
-    { id: '1', name: 'John Doe', roomNumber: '101', status: 'present', checkInTime: '08:15 AM', checkOutTime: '05:30 PM' },
-    { id: '2', name: 'Jane Smith', roomNumber: '102', status: 'present', checkInTime: '08:05 AM', checkOutTime: '05:45 PM' },
-    { id: '3', name: 'Michael Brown', roomNumber: '103', status: 'absent', checkInTime: '-', checkOutTime: '-' },
-    { id: '4', name: 'Sarah Johnson', roomNumber: '104', status: 'leave', checkInTime: '-', checkOutTime: '-' },
-    { id: '5', name: 'Robert Wilson', roomNumber: '105', status: 'late', checkInTime: '10:20 AM', checkOutTime: '06:15 PM' },
-    { id: '6', name: 'Emily Davis', roomNumber: '201', status: 'present', checkInTime: '07:55 AM', checkOutTime: '05:10 PM' },
-    { id: '7', name: 'David Martinez', roomNumber: '202', status: 'present', checkInTime: '08:10 AM', checkOutTime: '05:25 PM' },
-    { id: '8', name: 'Lisa Anderson', roomNumber: '203', status: 'absent', checkInTime: '-', checkOutTime: '-' },
-    { id: '9', name: 'James Thomas', roomNumber: '204', status: 'late', checkInTime: '09:45 AM', checkOutTime: '06:00 PM' },
-    { id: '10', name: 'Jennifer White', roomNumber: '205', status: 'present', checkInTime: '08:00 AM', checkOutTime: '05:15 PM' },
+    { id: '1', name: 'Rahul Sharma', roomNumber: '101', status: 'present', checkInTime: '08:15 AM', checkOutTime: '05:30 PM' },
+    { id: '2', name: 'Priya Patel', roomNumber: '205', status: 'present', checkInTime: '08:05 AM', checkOutTime: '05:45 PM' },
+    { id: '3', name: 'Amit Kumar', roomNumber: '112', status: 'absent', checkInTime: '-', checkOutTime: '-' },
+    { id: '4', name: 'Ananya Singh', roomNumber: '201', status: 'leave', checkInTime: '-', checkOutTime: '-' },
+    { id: '5', name: 'Vikram Reddy', roomNumber: '108', status: 'late', checkInTime: '10:20 AM', checkOutTime: '06:15 PM' },
   ];
   
   // Filter and search logic

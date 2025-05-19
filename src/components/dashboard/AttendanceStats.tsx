@@ -3,68 +3,52 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const AttendanceStats = () => {
-  // Sample data - in a real app this would come from your backend API
+  // Sample data for demonstration - in a real app this would come from your backend API
   const recentActivity = [
     { 
       id: 1, 
-      studentName: 'John Doe', 
+      studentName: 'Rahul Sharma', 
       roomNumber: '101', 
       action: 'Checked In', 
       time: '08:15 AM',
-      date: '2025-05-17'
+      date: '2025-05-19'
     },
     { 
       id: 2, 
-      studentName: 'Jane Smith', 
-      roomNumber: '102', 
+      studentName: 'Priya Patel', 
+      roomNumber: '205', 
       action: 'Checked Out', 
       time: '05:30 PM',
-      date: '2025-05-17'
+      date: '2025-05-19'
     },
     { 
       id: 3, 
-      studentName: 'Michael Brown', 
-      roomNumber: '103', 
-      action: 'Checked In', 
-      time: '07:55 AM',
-      date: '2025-05-17'
-    },
-    { 
-      id: 4, 
-      studentName: 'Sarah Johnson', 
-      roomNumber: '104', 
+      studentName: 'Amit Kumar', 
+      roomNumber: '112', 
       action: 'Absent', 
       time: '-',
-      date: '2025-05-17'
-    },
-    { 
-      id: 5, 
-      studentName: 'Robert Wilson', 
-      roomNumber: '105', 
-      action: 'Late Check-in', 
-      time: '10:20 AM',
-      date: '2025-05-17'
+      date: '2025-05-19'
     },
   ];
   
   const pendingRequests = [
     {
       id: 1,
-      studentName: 'Alice Cooper',
+      studentName: 'Ananya Singh',
       roomNumber: '201',
       requestType: 'Leave Application',
       fromDate: '2025-05-20',
       toDate: '2025-05-22',
-      reason: 'Family function'
+      reason: 'Family event'
     },
     {
       id: 2,
-      studentName: 'Bob Martin',
-      roomNumber: '202',
+      studentName: 'Vikram Reddy',
+      roomNumber: '108',
       requestType: 'Late Check-in',
-      fromDate: '2025-05-18',
-      toDate: '2025-05-18',
-      reason: 'Doctor appointment'
+      fromDate: '2025-05-20',
+      toDate: '2025-05-20',
+      reason: 'Medical appointment'
     },
   ];
 

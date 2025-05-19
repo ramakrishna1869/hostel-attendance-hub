@@ -15,18 +15,13 @@ const StudentsTable = ({ onViewDetails }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
   
-  // Sample student data with Indian names - in a real app this would come from your backend
+  // Minimal sample student data - in a real app this would come from your backend
   const studentsData = [
     { id: '1', name: 'Rahul Sharma', roomNumber: '101', status: 'present', checkInTime: '08:15 AM', checkOutTime: '05:30 PM', attendancePercentage: '95%' },
-    { id: '2', name: 'Priya Patel', roomNumber: '102', status: 'present', checkInTime: '08:05 AM', checkOutTime: '05:45 PM', attendancePercentage: '92%' },
-    { id: '3', name: 'Amit Kumar', roomNumber: '103', status: 'absent', checkInTime: '-', checkOutTime: '-', attendancePercentage: '78%' },
-    { id: '4', name: 'Neha Gupta', roomNumber: '104', status: 'leave', checkInTime: '-', checkOutTime: '-', attendancePercentage: '85%' },
-    { id: '5', name: 'Karthik Reddy', roomNumber: '105', status: 'late', checkInTime: '10:20 AM', checkOutTime: '06:15 PM', attendancePercentage: '88%' },
-    { id: '6', name: 'Anjali Singh', roomNumber: '201', status: 'present', checkInTime: '07:55 AM', checkOutTime: '05:10 PM', attendancePercentage: '97%' },
-    { id: '7', name: 'Rajesh Verma', roomNumber: '202', status: 'present', checkInTime: '08:10 AM', checkOutTime: '05:25 PM', attendancePercentage: '94%' },
-    { id: '8', name: 'Sneha Mishra', roomNumber: '203', status: 'absent', checkInTime: '-', checkOutTime: '-', attendancePercentage: '79%' },
-    { id: '9', name: 'Deepak Joshi', roomNumber: '204', status: 'late', checkInTime: '09:45 AM', checkOutTime: '06:00 PM', attendancePercentage: '83%' },
-    { id: '10', name: 'Ayesha Khan', roomNumber: '205', status: 'present', checkInTime: '08:00 AM', checkOutTime: '05:15 PM', attendancePercentage: '96%' },
+    { id: '2', name: 'Priya Patel', roomNumber: '205', status: 'present', checkInTime: '08:05 AM', checkOutTime: '05:45 PM', attendancePercentage: '92%' },
+    { id: '3', name: 'Amit Kumar', roomNumber: '112', status: 'absent', checkInTime: '-', checkOutTime: '-', attendancePercentage: '78%' },
+    { id: '4', name: 'Ananya Singh', roomNumber: '201', status: 'leave', checkInTime: '-', checkOutTime: '-', attendancePercentage: '85%' },
+    { id: '5', name: 'Vikram Reddy', roomNumber: '108', status: 'late', checkInTime: '10:20 AM', checkOutTime: '06:15 PM', attendancePercentage: '88%' },
   ];
   
   // Filter and search logic
