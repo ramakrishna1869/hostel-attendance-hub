@@ -14,6 +14,9 @@ import { useState, useEffect } from 'react';
 import CreateStreamSession from "./pages/streaming/CreateStreamSession";
 import StreamView from "./pages/streaming/StreamView";
 import StreamHost from "./pages/streaming/StreamHost";
+import StudentsPage from "./pages/admin/StudentsPage";
+import ReportsPage from "./pages/admin/ReportsPage";
+import LiveSessionsPage from "./pages/admin/LiveSessionsPage";
 
 const queryClient = new QueryClient();
 
@@ -51,12 +54,20 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/student" element={<Student />} />
+            
+            {/* Admin Routes */}
             <Route path="/students" element={<Students />} />
+            <Route path="/admin/students" element={<StudentsPage />} />
+            <Route path="/admin/reports" element={<ReportsPage />} />
+            <Route path="/admin/sessions" element={<LiveSessionsPage />} />
             <Route path="/students/reports" element={<Students />} />
             <Route path="/students/history/:id" element={<StudentDetails />} />
+            
+            {/* Streaming Routes */}
             <Route path="/streams/create" element={<CreateStreamSession />} />
             <Route path="/streams/host/:sessionId" element={<StreamHost />} />
             <Route path="/streams/view/:sessionId" element={<StreamView />} />
+            
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

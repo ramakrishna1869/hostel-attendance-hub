@@ -1,3 +1,4 @@
+
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { BarChart, Home, Users, X, Video } from 'lucide-react';
@@ -7,12 +8,12 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Updated navigation items with Indian-friendly naming and streaming section
+  // Updated navigation items with admin routes
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: <Home className="w-5 h-5" /> },
-    { name: 'Students', href: '/students', icon: <Users className="w-5 h-5" /> },
-    { name: 'Reports', href: '/students/reports', icon: <BarChart className="w-5 h-5" /> },
-    { name: 'Live Sessions', href: '/streams/create', icon: <Video className="w-5 h-5" /> },
+    { name: 'Students', href: '/admin/students', icon: <Users className="w-5 h-5" /> },
+    { name: 'Reports', href: '/admin/reports', icon: <BarChart className="w-5 h-5" /> },
+    { name: 'Live Sessions', href: '/admin/sessions', icon: <Video className="w-5 h-5" /> },
   ];
   
   const closeSidebar = () => {
@@ -31,14 +32,14 @@ const Sidebar = ({ isOpen, setIsOpen, isMobile }) => {
     if (href === '/dashboard') {
       return location.pathname === '/dashboard';
     }
-    if (href === '/students') {
-      return location.pathname === '/students';
+    if (href === '/admin/students') {
+      return location.pathname === '/admin/students' || location.pathname === '/students';
     }
-    if (href === '/students/reports') {
-      return location.pathname === '/students/reports' || location.pathname.includes('/reports');
+    if (href === '/admin/reports') {
+      return location.pathname === '/admin/reports' || location.pathname.includes('/reports');
     }
-    if (href === '/streams/create') {
-      return location.pathname.includes('/streams');
+    if (href === '/admin/sessions') {
+      return location.pathname === '/admin/sessions' || location.pathname.includes('/streams');
     }
     return location.pathname === href;
   };
