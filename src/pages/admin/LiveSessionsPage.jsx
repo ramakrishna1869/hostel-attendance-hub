@@ -22,99 +22,17 @@ const LiveSessionsPage = () => {
   const fetchLiveData = async () => {
     try {
       setLoading(true);
-      // In a real app, this would be an API call
-      // const response = await axios.get('/api/admin/live');
-      // setLiveData(response.data);
+      // In production, this would be an API call
+      // const response = await fetch('/api/live-sessions');
+      // const data = await response.json();
+      // setLiveData(data);
       
-      // Mock data
+      // For demo purposes, we'll just show an empty state
       setTimeout(() => {
-        const mockData = {
-          checkedIn: [
-            { 
-              id: 1, 
-              name: 'Raj Kumar', 
-              rollNo: 'CS2021001', 
-              roomNo: 'A-101', 
-              checkinTime: '08:15 AM', 
-              duration: '2h 30m'
-            },
-            { 
-              id: 2, 
-              name: 'Amit Patel', 
-              rollNo: 'CS2021003', 
-              roomNo: 'A-103', 
-              checkinTime: '07:45 AM', 
-              duration: '3h 00m'
-            },
-            { 
-              id: 3, 
-              name: 'Vikram Joshi', 
-              rollNo: 'CS2021005', 
-              roomNo: 'A-105', 
-              checkinTime: '08:00 AM', 
-              duration: '2h 45m'
-            },
-            { 
-              id: 4, 
-              name: 'Suresh Reddy', 
-              rollNo: 'CS2021007', 
-              roomNo: 'A-107', 
-              checkinTime: '08:30 AM', 
-              duration: '2h 15m'
-            },
-            { 
-              id: 5, 
-              name: 'Kiran Kumar', 
-              rollNo: 'CS2021009', 
-              roomNo: 'A-109', 
-              checkinTime: '07:50 AM', 
-              duration: '2h 55m'
-            },
-          ],
-          recentActivity: [
-            { 
-              id: 1, 
-              name: 'Priya Singh', 
-              rollNo: 'CS2021002', 
-              roomNo: 'B-202', 
-              actionType: 'checkout', 
-              time: '10:45 AM'
-            },
-            { 
-              id: 2, 
-              name: 'Meera Desai', 
-              rollNo: 'CS2021006', 
-              roomNo: 'B-206', 
-              actionType: 'checkout', 
-              time: '10:30 AM'
-            },
-            { 
-              id: 3, 
-              name: 'Nisha Verma', 
-              rollNo: 'CS2021010', 
-              roomNo: 'B-210', 
-              actionType: 'checkout',
-              time: '10:15 AM'
-            },
-            { 
-              id: 4, 
-              name: 'Rohit Sharma', 
-              rollNo: 'CS2021011', 
-              roomNo: 'A-111', 
-              actionType: 'checkin', 
-              time: '09:55 AM'
-            },
-            { 
-              id: 5, 
-              name: 'Sneha Gupta', 
-              rollNo: 'CS2021012', 
-              roomNo: 'B-212', 
-              actionType: 'checkin', 
-              time: '09:50 AM'
-            },
-          ]
-        };
-        setLiveData(mockData);
+        setLiveData({
+          checkedIn: [],
+          recentActivity: []
+        });
         setLoading(false);
         setLastUpdated(new Date());
       }, 1000);
@@ -142,6 +60,7 @@ const LiveSessionsPage = () => {
 
   // Helper to get initials from name
   const getInitials = (name) => {
+    if (!name) return '';
     return name
       .split(' ')
       .map(n => n[0])
@@ -183,8 +102,16 @@ const LiveSessionsPage = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-green-600">{liveData.checkedIn.length}</p>
-              <p className="text-sm text-muted-foreground">students checked in</p>
+              {loading ? (
+                <div className="flex items-center justify-center h-12">
+                  <div className="animate-spin h-5 w-5 border-b-2 border-primary"></div>
+                </div>
+              ) : (
+                <>
+                  <p className="text-3xl font-bold text-green-600">{liveData.checkedIn.length}</p>
+                  <p className="text-sm text-muted-foreground">students checked in</p>
+                </>
+              )}
             </CardContent>
           </Card>
           <Card>
@@ -195,8 +122,16 @@ const LiveSessionsPage = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-bold text-primary">{liveData.recentActivity.length}</p>
-              <p className="text-sm text-muted-foreground">actions in the last hour</p>
+              {loading ? (
+                <div className="flex items-center justify-center h-12">
+                  <div className="animate-spin h-5 w-5 border-b-2 border-primary"></div>
+                </div>
+              ) : (
+                <>
+                  <p className="text-3xl font-bold text-primary">{liveData.recentActivity.length}</p>
+                  <p className="text-sm text-muted-foreground">actions in the last hour</p>
+                </>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -214,9 +149,13 @@ const LiveSessionsPage = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {liveData.checkedIn.length === 0 ? (
-                  <p className="col-span-full text-center py-12 text-muted-foreground">
-                    No students currently checked in
-                  </p>
+                  <Card className="col-span-full">
+                    <CardContent className="text-center py-12 text-muted-foreground">
+                      <Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                      <h3 className="text-lg font-medium mb-2">No students currently checked in</h3>
+                      <p>Live check-in data will appear here when available</p>
+                    </CardContent>
+                  </Card>
                 ) : (
                   liveData.checkedIn.map(student => (
                     <Card key={student.id} className="overflow-hidden">
@@ -261,9 +200,13 @@ const LiveSessionsPage = () => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {liveData.recentActivity.length === 0 ? (
-                  <p className="col-span-full text-center py-12 text-muted-foreground">
-                    No recent activity
-                  </p>
+                  <Card className="col-span-full">
+                    <CardContent className="text-center py-12 text-muted-foreground">
+                      <Clock className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                      <h3 className="text-lg font-medium mb-2">No recent activity</h3>
+                      <p>Activity data will appear here when available</p>
+                    </CardContent>
+                  </Card>
                 ) : (
                   liveData.recentActivity.map(activity => (
                     <Card key={activity.id}>

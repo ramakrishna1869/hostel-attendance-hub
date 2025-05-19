@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Calendar, Download, FileText } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -46,54 +45,14 @@ const ReportsPage = () => {
   const fetchReports = async (from, to) => {
     try {
       setLoading(true);
-      // In a real app, this would be an API call
-      // const response = await axios.get(`/api/admin/reports?from=${from}&to=${to}`);
-      // setReports(response.data);
+      // In production, this would fetch from your backend API
+      // const response = await fetch(`/api/reports?from=${from}&to=${to}`);
+      // const data = await response.json();
+      // setReports(data);
       
-      // Mock data
+      // For demo purposes, we'll just show an empty state
       setTimeout(() => {
-        const mockReports = [
-          {
-            date: '2025-05-18',
-            total: 120,
-            present: 112,
-            absent: 8,
-            percentage: 93.3,
-            records: [
-              { time: '08:00 AM', checkins: 45, checkouts: 2 },
-              { time: '09:00 AM', checkins: 32, checkouts: 5 },
-              { time: '10:00 AM', checkins: 20, checkouts: 8 },
-              { time: '11:00 AM', checkins: 15, checkouts: 12 },
-            ]
-          },
-          {
-            date: '2025-05-17',
-            total: 120,
-            present: 108,
-            absent: 12,
-            percentage: 90,
-            records: [
-              { time: '08:00 AM', checkins: 40, checkouts: 0 },
-              { time: '09:00 AM', checkins: 30, checkouts: 3 },
-              { time: '10:00 AM', checkins: 24, checkouts: 10 },
-              { time: '11:00 AM', checkins: 14, checkouts: 15 },
-            ]
-          },
-          {
-            date: '2025-05-16',
-            total: 120,
-            present: 115,
-            absent: 5,
-            percentage: 95.8,
-            records: [
-              { time: '08:00 AM', checkins: 50, checkouts: 1 },
-              { time: '09:00 AM', checkins: 35, checkouts: 4 },
-              { time: '10:00 AM', checkins: 18, checkouts: 7 },
-              { time: '11:00 AM', checkins: 12, checkouts: 18 },
-            ]
-          },
-        ];
-        setReports(mockReports);
+        setReports([]);
         setLoading(false);
       }, 1000);
     } catch (error) {
@@ -104,9 +63,16 @@ const ReportsPage = () => {
   };
 
   const handleExport = (format) => {
-    toast.success(`Exporting data as ${format.toUpperCase()}`);
-    // In a real app, this would call an API endpoint
-    // window.open(`/api/admin/reports/export?from=${startDate}&to=${endDate}&format=${format}`, '_blank');
+    if (reports.length === 0) {
+      toast.error('No data available to export');
+      return;
+    }
+    
+    const filename = `attendance-report-${format === 'csv' ? 'csv' : 'pdf'}`;
+    toast.success(`Exporting ${filename}`);
+    
+    // In a real app, this would call an API endpoint to download the file
+    // window.open(`/api/reports/export?from=${startDate}&to=${endDate}&format=${format}`, '_blank');
   };
 
   return (
@@ -124,11 +90,19 @@ const ReportsPage = () => {
           </Tabs>
           
           <div className="flex gap-2">
-            <Button variant="outline" onClick={() => handleExport('csv')}>
+            <Button 
+              variant="outline" 
+              onClick={() => handleExport('csv')}
+              disabled={reports.length === 0}
+            >
               <Download className="mr-2 h-4 w-4" />
               Export CSV
             </Button>
-            <Button variant="outline" onClick={() => handleExport('pdf')}>
+            <Button 
+              variant="outline" 
+              onClick={() => handleExport('pdf')}
+              disabled={reports.length === 0}
+            >
               <FileText className="mr-2 h-4 w-4" />
               Export PDF
             </Button>
@@ -139,6 +113,16 @@ const ReportsPage = () => {
           <div className="flex justify-center items-center p-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
           </div>
+        ) : reports.length === 0 ? (
+          <Card>
+            <CardContent className="py-12">
+              <div className="text-center text-muted-foreground">
+                <Calendar className="h-12 w-12 mx-auto mb-4 text-gray-400" />
+                <h3 className="text-lg font-medium mb-2">No reports available</h3>
+                <p>Reports will appear here once attendance data is available</p>
+              </div>
+            </CardContent>
+          </Card>
         ) : (
           <div className="grid gap-6">
             <Card>
@@ -210,13 +194,13 @@ const ReportsPage = () => {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {report.records.map((record, index) => (
+                        {/*report.records.map((record, index) => (
                           <TableRow key={index}>
                             <TableCell>{record.time}</TableCell>
                             <TableCell>{record.checkins}</TableCell>
                             <TableCell>{record.checkouts}</TableCell>
                           </TableRow>
-                        ))}
+                        ))*/}
                       </TableBody>
                     </Table>
                   </div>
@@ -224,15 +208,15 @@ const ReportsPage = () => {
                   <div className="mt-4 grid grid-cols-3 gap-4 text-center">
                     <div>
                       <p className="text-sm text-muted-foreground">Total Students</p>
-                      <p className="text-xl font-semibold">{report.total}</p>
+                      {/*<p className="text-xl font-semibold">{report.total}</p>*/}
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Present</p>
-                      <p className="text-xl font-semibold text-green-600">{report.present}</p>
+                      {/*<p className="text-xl font-semibold text-green-600">{report.present}</p>*/}
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Absent</p>
-                      <p className="text-xl font-semibold text-red-500">{report.absent}</p>
+                      {/*<p className="text-xl font-semibold text-red-500">{report.absent}</p>*/}
                     </div>
                   </div>
                 </CardContent>

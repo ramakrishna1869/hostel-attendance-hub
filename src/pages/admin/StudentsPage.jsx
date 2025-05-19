@@ -25,29 +25,18 @@ const StudentsPage = () => {
     direction: 'ascending',
   });
 
-  // Mock data for demonstration - in real app, fetch from API
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        // In a real app, this would be an API call
-        // const response = await axios.get('/api/admin/students');
-        // setStudents(response.data);
+        setLoading(true);
+        // In production, this would fetch from your backend API
+        // const response = await fetch('/api/students');
+        // const data = await response.json();
+        // setStudents(data);
         
-        // Mock data
+        // For demo purposes, we'll just show an empty state
         setTimeout(() => {
-          const mockStudents = [
-            { id: 1, name: 'Raj Kumar', rollNo: 'CS2021001', roomNo: 'A-101', status: 'checked-in', lastCheckin: '08:15 AM' },
-            { id: 2, name: 'Priya Singh', rollNo: 'CS2021002', roomNo: 'B-202', status: 'checked-out', lastCheckin: '09:30 AM' },
-            { id: 3, name: 'Amit Patel', rollNo: 'CS2021003', roomNo: 'A-103', status: 'checked-in', lastCheckin: '07:45 AM' },
-            { id: 4, name: 'Deepa Sharma', rollNo: 'CS2021004', roomNo: 'B-204', status: 'absent', lastCheckin: null },
-            { id: 5, name: 'Vikram Joshi', rollNo: 'CS2021005', roomNo: 'A-105', status: 'checked-in', lastCheckin: '08:00 AM' },
-            { id: 6, name: 'Meera Desai', rollNo: 'CS2021006', roomNo: 'B-206', status: 'checked-out', lastCheckin: '10:15 AM' },
-            { id: 7, name: 'Suresh Reddy', rollNo: 'CS2021007', roomNo: 'A-107', status: 'checked-in', lastCheckin: '08:30 AM' },
-            { id: 8, name: 'Anjali Gupta', rollNo: 'CS2021008', roomNo: 'B-208', status: 'absent', lastCheckin: null },
-            { id: 9, name: 'Kiran Kumar', rollNo: 'CS2021009', roomNo: 'A-109', status: 'checked-in', lastCheckin: '07:50 AM' },
-            { id: 10, name: 'Nisha Verma', rollNo: 'CS2021010', roomNo: 'B-210', status: 'checked-out', lastCheckin: '09:45 AM' },
-          ];
-          setStudents(mockStudents);
+          setStudents([]);
           setLoading(false);
         }, 1000);
       } catch (error) {
@@ -82,26 +71,35 @@ const StudentsPage = () => {
   };
 
   const handleViewProfile = (student) => {
-    toast.info(`Viewing profile of ${student.name}`);
-    // In a real app, navigate to student detail page
+    // In real app, navigate to student detail page
     // navigate(`/admin/students/${student.id}`);
+    toast.info(`Viewing student profile`);
   };
 
-  const handleSendAlert = (student) => {
-    toast.success(`Alert sent to ${student.name}`);
-    // In a real app, send API request
-    // await axios.post(`/api/admin/alert/${student.id}`);
+  const handleSendAlert = () => {
+    toast.success(`Alert sent successfully`);
+  };
+
+  const handleExport = () => {
+    if (students.length === 0) {
+      toast.error('No data available to export');
+      return;
+    }
+    
+    // In production, this would generate a real CSV or PDF
+    toast.success('Exporting student data');
   };
 
   // Filter students based on search query
   const filteredStudents = students.filter(
     (student) =>
-      student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      student.rollNo.toLowerCase().includes(searchQuery.toLowerCase())
+      student?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      student?.rollNo?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Sort students based on sortConfig
   const sortedStudents = [...filteredStudents].sort((a, b) => {
+    if (!a[sortConfig.key] || !b[sortConfig.key]) return 0;
     if (a[sortConfig.key] < b[sortConfig.key]) {
       return sortConfig.direction === 'ascending' ? -1 : 1;
     }
@@ -127,7 +125,7 @@ const StudentsPage = () => {
             />
           </div>
           <div className="flex gap-2">
-            <Button variant="outline">Export</Button>
+            <Button variant="outline" onClick={handleExport} disabled={students.length === 0}>Export</Button>
             <Button>Add Student</Button>
           </div>
         </div>
@@ -161,7 +159,7 @@ const StudentsPage = () => {
                     {sortedStudents.length === 0 ? (
                       <TableRow>
                         <TableCell colSpan={6} className="text-center py-8">
-                          No students found
+                          No students found. Data will appear here once available.
                         </TableCell>
                       </TableRow>
                     ) : (
@@ -177,7 +175,7 @@ const StudentsPage = () => {
                               <Button variant="ghost" size="icon" onClick={() => handleViewProfile(student)}>
                                 <UserCircle className="h-4 w-4" />
                               </Button>
-                              <Button variant="ghost" size="icon" onClick={() => handleSendAlert(student)}>
+                              <Button variant="ghost" size="icon" onClick={handleSendAlert}>
                                 <Bell className="h-4 w-4" />
                               </Button>
                             </div>
