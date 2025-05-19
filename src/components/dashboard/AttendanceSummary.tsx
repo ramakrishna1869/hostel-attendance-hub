@@ -7,7 +7,6 @@ interface AttendanceSummaryProps {
 }
 
 const AttendanceSummary = ({ totalStudents }: AttendanceSummaryProps) => {
-  // Minimal sample data for demonstration - would come from backend in production
   const presentCount = 142;
   const absentCount = 8;
   const leaveCount = 3;

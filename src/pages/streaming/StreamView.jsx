@@ -24,9 +24,7 @@ const StreamView = () => {
   const [viewerName, setViewerName] = useState('');
   const [hasJoined, setHasJoined] = useState(false);
   
-  // Check if session exists
   useEffect(() => {
-    // Get session data (in a real app, this would be from an API)
     const allSessions = JSON.parse(localStorage.getItem('streamingSessions') || '[]');
     const currentSession = allSessions.find(s => s.id === sessionId);
     
@@ -40,7 +38,6 @@ const StreamView = () => {
     setViewerCount(currentSession.viewerCount || 0);
     setIsLoading(false);
     
-    // Simulate getting stream from host (in a real app, this would use WebRTC)
     const interval = setInterval(() => {
       const newCount = Math.floor(Math.random() * 5) + 1;
       setViewerCount(newCount);
@@ -59,11 +56,9 @@ const StreamView = () => {
       return;
     }
     
-    // In a real app, you would call an API to join the session
     setHasJoined(true);
     setJoinDialogOpen(false);
     
-    // Add viewer to session
     const allSessions = JSON.parse(localStorage.getItem('streamingSessions') || '[]');
     const sessionIndex = allSessions.findIndex(s => s.id === sessionId);
     
@@ -92,8 +87,6 @@ const StreamView = () => {
   };
   
   const leaveStream = () => {
-    // In a real app, you would call an API to leave the session
-    
     toast({
       title: "Left stream",
       description: "You've left the streaming session."
@@ -176,50 +169,6 @@ const StreamView = () => {
             </div>
           </div>
         </header>
-        
-        <div className="flex-1 flex flex-col md:flex-row p-4 gap-4">
-          <div className="flex-1">
-            <Card className="overflow-hidden">
-              <CardContent className="p-0">
-                <div className="relative aspect-video">
-                  <video 
-                    ref={remoteVideoRef}
-                    className="w-full h-full bg-black"
-                    poster="/placeholder.svg"
-                  />
-                  
-                  {!hasJoined && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                      <Button onClick={() => setJoinDialogOpen(true)}>
-                        Join Stream
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-          
-          {/* Chat sidebar - hidden on mobile unless toggled */}
-          <div className={`w-full md:w-80 ${showChat ? 'block' : 'hidden md:block'}`}>
-            <Card className="h-full">
-              <CardContent className="p-4 h-full">
-                <div className="flex flex-col h-full">
-                  <h3 className="font-medium mb-2">Live Chat</h3>
-                  {hasJoined ? (
-                    <StreamChat sessionId={sessionId} isHost={false} viewerName={viewerName} />
-                  ) : (
-                    <div className="flex-1 flex items-center justify-center">
-                      <p className="text-gray-500 text-center">
-                        Join the stream to participate in chat
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
       </div>
     </>
   );

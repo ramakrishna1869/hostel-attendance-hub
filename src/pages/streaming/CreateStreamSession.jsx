@@ -18,7 +18,6 @@ const CreateStreamSession = () => {
   const [sessionTitle, setSessionTitle] = useState('');
   const [sessionDescription, setSessionDescription] = useState('');
   
-  // Check if user is logged in as admin
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (!userData) {
@@ -45,14 +44,9 @@ const CreateStreamSession = () => {
     
     setIsLoading(true);
     
-    // Generate a unique session ID (in a real app, this would come from the backend)
     const sessionId = `stream-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
     
-    // Simulate API call to create a session
     setTimeout(() => {
-      // In a real app, you would call an API to create the session and store it in the database
-      
-      // Store session data in localStorage for demo purposes
       const existingSessions = JSON.parse(localStorage.getItem('streamingSessions') || '[]');
       const userData = JSON.parse(localStorage.getItem('user'));
       

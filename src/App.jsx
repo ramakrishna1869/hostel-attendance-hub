@@ -21,11 +21,9 @@ import LiveSessionsPage from "./pages/admin/LiveSessionsPage";
 const queryClient = new QueryClient();
 
 const App = () => {
-  // Loading state for transition effects
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading time
     const timer = setTimeout(() => {
       setLoading(false);
     }, 500);
@@ -55,7 +53,6 @@ const App = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/student" element={<Student />} />
             
-            {/* Admin Routes */}
             <Route path="/students" element={<Students />} />
             <Route path="/admin/students" element={<StudentsPage />} />
             <Route path="/admin/reports" element={<ReportsPage />} />
@@ -63,12 +60,10 @@ const App = () => {
             <Route path="/students/reports" element={<Students />} />
             <Route path="/students/history/:id" element={<StudentDetails />} />
             
-            {/* Streaming Routes */}
             <Route path="/streams/create" element={<CreateStreamSession />} />
             <Route path="/streams/host/:sessionId" element={<StreamHost />} />
             <Route path="/streams/view/:sessionId" element={<StreamView />} />
             
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

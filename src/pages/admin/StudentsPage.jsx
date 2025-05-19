@@ -29,11 +29,7 @@ const StudentsPage = () => {
     const fetchStudents = async () => {
       try {
         setLoading(true);
-        // In production, this would fetch from your backend API
-        // const response = await fetch('/api/students');
-        // const data = await response.json();
         
-        // For demonstration purposes only - minimal sample data
         setTimeout(() => {
           setStudents([
             {
@@ -95,8 +91,6 @@ const StudentsPage = () => {
   };
 
   const handleViewProfile = (student) => {
-    // In real app, navigate to student detail page
-    // navigate(`/admin/students/${student.id}`);
     toast.info(`Viewing ${student.name}'s profile`);
   };
 
@@ -110,18 +104,15 @@ const StudentsPage = () => {
       return;
     }
     
-    // In production, this would generate a real CSV or PDF
     toast.success('Exporting student data');
   };
 
-  // Filter students based on search query
   const filteredStudents = students.filter(
     (student) =>
       student?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       student?.rollNo?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Sort students based on sortConfig
   const sortedStudents = [...filteredStudents].sort((a, b) => {
     if (!a[sortConfig.key] || !b[sortConfig.key]) return 0;
     if (a[sortConfig.key] < b[sortConfig.key]) {

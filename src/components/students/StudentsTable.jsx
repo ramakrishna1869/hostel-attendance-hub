@@ -15,7 +15,6 @@ const StudentsTable = ({ onViewDetails }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filter, setFilter] = useState('all');
   
-  // Minimal sample student data - in a real app this would come from your backend
   const studentsData = [
     { id: '1', name: 'Rahul Sharma', roomNumber: '101', status: 'present', checkInTime: '08:15 AM', checkOutTime: '05:30 PM', attendancePercentage: '95%' },
     { id: '2', name: 'Priya Patel', roomNumber: '205', status: 'present', checkInTime: '08:05 AM', checkOutTime: '05:45 PM', attendancePercentage: '92%' },
@@ -24,7 +23,6 @@ const StudentsTable = ({ onViewDetails }) => {
     { id: '5', name: 'Vikram Reddy', roomNumber: '108', status: 'late', checkInTime: '10:20 AM', checkOutTime: '06:15 PM', attendancePercentage: '88%' },
   ];
   
-  // Filter and search logic
   const filteredStudents = studentsData.filter(student => {
     const matchesSearch = student.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           student.roomNumber.toLowerCase().includes(searchQuery.toLowerCase());
@@ -34,7 +32,6 @@ const StudentsTable = ({ onViewDetails }) => {
   });
 
   const handleNextNavigation = (student) => {
-    // Suggest next navigation options based on student
     alert(`Next Actions: View ${student.name}'s attendance history, Send notification, or Check room details`);
   };
   
