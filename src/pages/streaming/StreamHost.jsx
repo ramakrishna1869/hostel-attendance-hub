@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Mic, MicOff, Video, VideoOff, ScreenShare, MessageSquare, Record, Users } from 'lucide-react';
+import { Mic, MicOff, Video, VideoOff, ScreenShare, MessageSquare, Circle, Users } from 'lucide-react';
 import StreamChat from '@/components/streaming/StreamChat';
 import StreamViewers from '@/components/streaming/StreamViewers';
 
@@ -310,7 +310,7 @@ const StreamHost = () => {
             <div className="flex items-center">
               {streamControls.recording && (
                 <div className="flex items-center bg-red-100 text-red-500 px-3 py-1 rounded-full mr-2">
-                  <Record className="w-4 h-4 mr-1 animate-pulse" />
+                  <Circle className="w-4 h-4 mr-1 animate-pulse" />
                   <span className="text-sm font-medium">Recording</span>
                 </div>
               )}
@@ -361,7 +361,7 @@ const StreamHost = () => {
                       size="icon" 
                       onClick={toggleRecording}
                     >
-                      <Record className="h-5 w-5" />
+                      <Circle className="h-5 w-5" />
                     </Button>
                   </div>
                 </div>
